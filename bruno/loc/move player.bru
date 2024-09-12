@@ -1,0 +1,27 @@
+meta {
+  name: move player
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://127.0.0.1:8000/players/add_player/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "player": {
+      "name": "Tony",
+      "position": {
+        "x": 1,
+        "y": 1
+      }
+    },
+    "delta": {
+      "x": 2,
+      "y": 3
+    }
+  }
+}

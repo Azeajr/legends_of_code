@@ -1,0 +1,21 @@
+meta {
+  name: add player
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://127.0.0.1:8000/players/add_player
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Trey",
+    "position": {
+      "x": 1,
+      "y": 1
+    }
+  }
+}

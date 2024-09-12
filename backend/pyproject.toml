@@ -1,0 +1,54 @@
+[project]
+name = "loc_backend"
+version = "0.1.0"
+description = "Legends of Code MUD Backend"
+authors = [{ name = "Antonio Zea Jr", email = "zeajantonio@gmail.com" }]
+dependencies = [
+    "fastapi[standard]>=0.112.2",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "icecream>=2.1.3",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/backend"]
+
+[tool.mypy]
+python_version = "3.12"
+# ignore_missing_imports = true
+strict = true
+warn_return_any = false
+# disallow_untyped_defs = true
+# disallow_incomplete_defs = true
+# disallow_untyped_calls = true
+# warn_return_any = true
+# warn_unused_ignores = true
+# warn_redundant_casts = true
+plugins = "pydantic.mypy"
+
+[tool.ruff]
+target-version = "py312"
+
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["CPY001", "ERA001"]
+
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/**/*.py" = [
+  "S101", # asserts allowed in tests...
+  "ARG",  # Unussed arguments allowed in tests...
+]
