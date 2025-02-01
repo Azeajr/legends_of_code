@@ -1,7 +1,9 @@
 """Schemas for the backend."""
 
 
-from pydantic import BaseModel
+from uuid import UUID, uuid4
+
+from pydantic import BaseModel, PrivateAttr, computed_field
 
 
 class Position(BaseModel):
@@ -31,13 +33,13 @@ class Player(BaseModel):
 
     name: str
     position: Position
-    # _uuid: UUID = PrivateAttr(default_factory=uuid4)
+    _uuid: UUID = PrivateAttr(default_factory=uuid4)
 
-    # @computed_field
-    # @property
-    # def uuid(self) -> str:
-    #     """Player UUID."""
-    #     return self._uuid.hex
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def uuid(self) -> str:
+        """Player UUID."""
+        return self._uuid.hex
 
     def __eq__(self, other: object) -> bool:
         """Check if two players are equal.

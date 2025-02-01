@@ -1,2 +1,12 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+  import Game from '$lib/Game.svelte';
+</script>
+
+<svelte:head>
+  <title>My SvelteKit Phaser App</title>
+</svelte:head>
+
+<main>
+  <h1>My SvelteKit Phaser App</h1>
+  <Game />
+</main>

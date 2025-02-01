@@ -1,10 +1,10 @@
-"""Contains the FastAPI router for the players endpoint."""
+"""Players router."""
 
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from backend.game_eng import GameMap
+from backend.game_eng import GameMap, get_game_map
 from backend.schemas import Player, Position
 
 router = APIRouter(
@@ -13,21 +13,10 @@ router = APIRouter(
 )
 
 
-def get_game_map() -> GameMap:
-    """Get game map.
-
-    Returns
-    -------
-        GameMap: Game map.
-
-    """
-    return GameMap()
-
-
 @router.get("/")
 def get_players(
     game_map: Annotated[GameMap, Depends(get_game_map)],
-) -> dict[str, list[Player]]:
+) -> dict[str, dict[str, Player]]:
     """Read players endpoint.
 
     Returns
@@ -101,8 +90,6 @@ def move_player(
         HTTPException: Player does not exist.
 
     """
-    # player = move_player_request.player
-    # delta = move_player_request.delta
     moved_player = game_map.move_player(player, delta)
     if moved_player:
         return moved_player

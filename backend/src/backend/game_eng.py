@@ -33,7 +33,8 @@ class GameMap:
         self,
         name: str = "Map",
         size: tuple[int, int] = (10, 10),
-        players: list[Player] | None = None,
+        # players: list[Player] | None = None,
+        players: dict[str, Player] | None = None,
     ) -> None:
         """Initialize the map.
 
@@ -50,7 +51,7 @@ class GameMap:
         if not self._initialized:
             self.name = name
             self.size = size
-            self.players: list[Player] = players or []
+            self.players: dict[str, Player] = players or {}
             self._initialized = True
 
     def add_player(self, player: Player) -> Player | None:
@@ -67,7 +68,7 @@ class GameMap:
 
         """
         if player not in self.players:
-            self.players.append(player)
+            self.players[player.uuid] = player
             return player
         msg = f"Player {player} already exists on the map."
         logger.error(msg)
@@ -87,7 +88,7 @@ class GameMap:
 
         """
         try:
-            self.players.remove(player)
+            self.players.pop(player.uuid)
         except ValueError:
             msg = f"Player {player} not found on the map."
             logger.exception(msg)
@@ -115,8 +116,9 @@ class GameMap:
             and self.size[0] > player.position.x + delta.x >= 0
             and self.size[1] > player.position.y + delta.y >= 0
         ):
-            self.players[self.players.index(player)].position += delta
-            return self.players[self.players.index(player)]
+            # self.players[self.players.index(player)].position += delta
+            self.players[player.uuid].position += delta
+            return self.players[player.uuid]
         msg = f"Player {player} not found on the map."
         logger.error(msg)
         return None
@@ -131,6 +133,19 @@ class GameMap:
         """
         game_map = [[0 for _ in range(self.size[0])] for _ in range(self.size[1])]
         for player in self.players:
-            game_map[player.position.y][player.position.x] += 1
+            game_map[self.players[player].position.y][
+                self.players[player].position.x
+            ] += 1
 
         return "\n".join("".join(str(cell) for cell in row) for row in game_map)
+
+
+def get_game_map() -> GameMap:
+    """Get game map.
+
+    Returns
+    -------
+        GameMap: Game map.
+
+    """
+    return GameMap()

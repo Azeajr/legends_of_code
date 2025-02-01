@@ -2,11 +2,12 @@
 
 from fastapi import FastAPI
 
-from backend.routers import players
+from backend.routers import maps, players
 
 app = FastAPI()
 
 app.include_router(players.router)
+app.include_router(maps.router)
 # game_map = GameMap(name="Map", size=(10, 10))
 # game_map.add_player(Player(name="Player1", position=(0, 0)))
 
